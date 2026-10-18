@@ -1,121 +1,91 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState('')
+
+  const tools = [
+    { name: 'Merge PDF', icon: '📑', description: 'Combine multiple PDFs into one' },
+    { name: 'Split PDF', icon: '✂️', description: 'Separate pages from a PDF' },
+    { name: 'Compress PDF', icon: '🗜️', description: 'Reduce PDF file size' },
+    { name: 'PDF to JPG', icon: '🖼️', description: 'Convert PDF pages to images' },
+    { name: 'Images to PDF', icon: '📄', description: 'Turn images into a PDF' },
+    { name: 'Rotate PDF', icon: '🔄', description: 'Rotate PDF pages' },
+    { name: 'Sign PDF', icon: '✍️', description: 'Add your signature to a PDF' },
+    { name: 'Scan Documents', icon: '📷', description: 'Scan documents with your camera' },
+  ]
+
+  const filteredTools = tools.filter((tool) =>
+    tool.name.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main>
+      <header className="navbar">
+        <a className="brand" href="#" aria-label="FileMint home">
+          <span className="brand-icon">F</span>
+          FileMint
+        </a>
+
+        <nav>
+          <a href="#tools">All Tools</a>
+          <a href="#about">About</a>
+        </nav>
+      </header>
+
+      <section className="hero-section">
+        <span className="eyebrow">YOUR DOCUMENTS, SIMPLIFIED</span>
+        <h1>Every document task.<br /><span>One simple place.</span></h1>
+        <p>Free and easy-to-use tools for your PDFs and documents.</p>
+
+        <label className="search-box">
+          <span aria-hidden="true">🔎</span>
+          <input
+            type="search"
+            placeholder="Search PDF tools..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            aria-label="Search PDF tools"
+          />
+        </label>
+
+        <p className="privacy-note">🔒 Your privacy matters. More tools coming soon.</p>
       </section>
 
-      <div className="ticks"></div>
+      <section className="tools-section" id="tools">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">GET THINGS DONE</span>
+            <h2>Popular tools</h2>
+          </div>
+          <span>{filteredTools.length} tools</span>
+        </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="tools-grid">
+          {filteredTools.map((tool) => (
+            <article className="tool-card" key={tool.name}>
+              <div className="tool-icon" aria-hidden="true">{tool.icon}</div>
+              <h3>{tool.name}</h3>
+              <p>{tool.description}</p>
+              <span className="tool-link">Explore tool →</span>
+            </article>
+          ))}
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
+
+        {filteredTools.length === 0 && (
+          <p className="empty-state">No tools found. Try another search.</p>
+        )}
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer id="about">
+        <a className="brand" href="#">
+          <span className="brand-icon">F</span>
+          FileMint
+        </a>
+        <p>Simple document tools, designed with privacy in mind.</p>
+        <small>© {new Date().getFullYear()} FileMint</small>
+      </footer>
+    </main>
   )
 }
 
